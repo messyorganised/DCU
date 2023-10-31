@@ -2,9 +2,14 @@ Start-Transcript -Path "C:\windows\temp\DCUTransscript.txt" -Append
 
 $DCUInstallCheck = $null
 $DSAInstallCheck = $null
+
+
+#Manual Configuration is needed for each version of Dell Command Updater.
+#Ensure that the Current version listed bellow correspond with the current version installer link 
+#Ensure that the link is a direct link where programs are downloaded automatically the moment you hit the link. 
 $DCUCurrentVersion = "5.0.0"
 $DCUCurrentVersionURI = "https://dl.dell.com/FOLDER10408469M/1/Dell-Command-Update-Application_HYR95_WIN_5.0.0_A00.EXE"
-
+#End of Manual Configuration 
 
 $delllogs = 'C:\dell\logs\'
 $scanlog = "$($delllogs)\scan.log"
@@ -127,49 +132,4 @@ else
     UpdateDrivers
 
 }
-
-
-#if ($null -ne $DSAInstallCheck) {
-#    Write-Host "SupportAssit Found. Now Uninstalling..."
-#    UninstallDSA
-#    Write-Host "Now Installing DCU"
-#    InstallUpdateDCU
-#    Write-Host "DCU Installed. Starting Update Process..."
-#    UpdateDrivers
-#}
-#elseif ($null -ne $UninstallDellUpdate) {
-#    Write-Host "Dell Update Found. Now Uninstalling..."
-#    UninstallDellUpdate
-#    Write-Host "Now Installing DCU"
-#    InstallUpdateDCU
-#    Write-Host "DCU Installed. Starting Update Process..."
-#    UpdateDrivers
-#}
-#elseif ($null -ne $UninstallDellClientUpdate) {
-#    Write-Host "Dell Client Update Found. Now Uninstalling..."
-#    UninstallDellClientUpdate
-#    Write-Host "Now Installing DCU"
-#    InstallUpdateDCU
-#    Write-Host "DCU Installed. Starting Update Process..."
-#    UpdateDrivers
-#}
-#elseif ($null -ne $DCUInstallCheck) {
-#    Write-Host "DCU Installed. Checking Version..."
-#    if($DCUInstallCheck.version -ne $DCUCurrentVersion)
-#        {
-#            Write-Host "DCU Installed. Version $DCUInstallCheck.version found. Uninstalling to Install newer version"
-#            UninstallDSU
-#            Write-Host "Now Installing Current Version"
-#            InstallUpdateDCU
-#            Write-Host "Installing Updates..."
-#            UpdateDrivers
-#        }
-#    else
-#        {
-#            Write-Host "Version up to date. Installing Updates..."
-#            UpdateDrivers
-#        } 
-# }
-
-
 Stop-Transcript
