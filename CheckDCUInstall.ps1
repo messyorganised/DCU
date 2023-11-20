@@ -28,15 +28,13 @@ function UpdateDrivers {
     Write-Host (Get-Content "$delllogs\ApplyUpdates.log" | Select-String "The program exited with return code")
 }
 
-foreach ($i in $DCUCurrentInstall) {
-
-    if ($DCUCurrentInstall.Version -notlike $DCUVersion) {
+if ($DCUCurrentInstall.Version -notlike $DCUVersion) {
         Write-Host "Outdated version detected. Uninstalling said version now..."
         DCUUninstall
 
         DCUInstall
     }
-    else {
+else {
         Write-Host "Version is Up-To-Date"
     }
 }
