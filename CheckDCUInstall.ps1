@@ -34,7 +34,7 @@ foreach ($i in $DCUCurrentInstall) {
         Write-Host "Outdated version detected. Uninstalling said version now..."
         DCUUninstall
 
-        DCUInstall
+        DCUInstall -wait
     }
     else {
         Write-Host "Version is Up-To-Date"
