@@ -2,7 +2,7 @@ Start-Transcript -Path "C:\windows\temp\DCUTransscript.txt" -Append
 
 $DCULink = "https://dl.dell.com/FOLDER10791703M/1/Dell-Command-Update-Application_44TH5_WIN_5.1.0_A00.EXE"
 $DCUVersion = "5.1.0"
-$DCUCurrentInstall = Get-WmiObject -class Win32_Product | Where-Object {$_.Name -like "*Dell Command*"} | Select-Object Name, Version
+$DCUCurrentInstall = Get-WmiObject -class Win32_Product | Where-Object {$_.Name -like "*Dell Command*"}
 
 function DCUUninstall{
     #Start-Process "msiexec.exe" -ArgumentList "/x", $DCUCurrentInstall.IdentifyingNumber, "/passive", "/quiet", "/norestart" -Wait -NoNewWindow
@@ -30,7 +30,7 @@ function UpdateDrivers {
 
 foreach ($i in $DCUCurrentInstall) {
 
-    if ($DCUCurrentInstall.Version -ne $DCUVersion) {
+    if ($DCUCurrentInstall.Version -notlike $DCUVersion) {
         Write-Host "Outdated version detected. Uninstalling said version now..."
         DCUUninstall
 
