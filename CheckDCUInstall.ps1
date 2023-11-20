@@ -37,7 +37,6 @@ if ($DCUCurrentInstall.Version -notlike $DCUVersion) {
 else {
         Write-Host "Version is Up-To-Date"
     }
-}
 
 UpdateDrivers
 
