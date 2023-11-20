@@ -5,7 +5,8 @@ $DCUVersion = "5.1.0"
 $DCUCurrentInstall = Get-WmiObject -class Win32_Product | Where-Object {$_.Name -like "*Dell Command*"} | Select-Object Name, Version
 
 function DCUUninstall{
-    Start-Process "msiexec.exe" -ArgumentList "/x", $DCUCurrentInstall.IdentifyingNumber, "/passive", "/quiet", "/norestart" -Wait -NoNewWindow
+    #Start-Process "msiexec.exe" -ArgumentList "/x", $DCUCurrentInstall.IdentifyingNumber, "/passive", "/quiet", "/norestart" -Wait -NoNewWindow
+    msiexec.exe /x $$DCUCurrentInstall.IdentifyingNumber /passive /quiet /norestart | Write-Verbose
     Write-Host "Uninstall completed."
 
 }
