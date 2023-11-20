@@ -6,7 +6,7 @@ $DCUCurrentInstall = Get-WmiObject -class Win32_Product | Where-Object {$_.Name 
 
 function DCUUninstall{
     #Start-Process "msiexec.exe" -ArgumentList "/x", $DCUCurrentInstall.IdentifyingNumber, "/passive", "/quiet", "/norestart" -Wait -NoNewWindow
-    msiexec.exe /x $$DCUCurrentInstall.IdentifyingNumber /passive /quiet /norestart | Write-Verbose
+    msiexec.exe /x $DCUCurrentInstall.IdentifyingNumber /passive /quiet /norestart | Write-Verbose
     Write-Host "Uninstall completed."
 
 }
