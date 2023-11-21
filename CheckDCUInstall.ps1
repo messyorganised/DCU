@@ -39,6 +39,7 @@ function UpdateDrivers {
             Write-Host $scanResults
         }
     }
+        Write-Host (Get-Content "C:\dell\logs\ApplyUpdates.log" | Select-String "The program exited with return code")
 }
 
 if ($DCUCurrentInstall.Version -notlike $DCUVersion) {
