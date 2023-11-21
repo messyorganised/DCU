@@ -22,9 +22,7 @@ function UpdateDrivers {
     param (
         [string]$DCUCLI = "C:\Program Files (X86)\Dell\CommandUpdate\dcu-cli.exe"
     )
-    
     Write-Host "Starting Dell Updates..."
-    
     $DCUCommands = @{
         Configure = @("/configure","-silent","-autoSuspendBitLocker=enable","-userConsent=disable")
         Scan = @("/scan","-silent","-outputLog=C:\dell\logs\scan.log")
@@ -39,6 +37,7 @@ function UpdateDrivers {
             Write-Host $scanResults
         }
     }
+    
         Write-Host (Get-Content "C:\dell\logs\ApplyUpdates.log" | Select-String "The program exited with return code")
 }
 
@@ -48,7 +47,10 @@ if ($DCUCurrentInstall.Version -notlike $DCUVersion) {
 } 
 
 else {
+
     Write-Host "No updates required. Current version is up to date."
 }
 
 UpdateDrivers
+
+Stop-Transcript
