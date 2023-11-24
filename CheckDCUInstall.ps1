@@ -5,24 +5,24 @@ $DCUVersion = "5.1.0"
 $DCUCurrentInstall = Get-WmiObject -class Win32_Product | Where-Object {$_.Name -like "*Dell Command*"}
 
 function DCUUninstall {
-    Write-Host "Outdated version detected. Uninstalling said version now..."  -Seperator "`n"
+    Write-Host "Outdated version detected. Uninstalling said version now..."   "`n"
     msiexec.exe /x $DCUCurrentInstall.IdentifyingNumber /passive /quiet /norestart | Write-Verbose
-    Write-Host "Uninstall completed."  -Seperator "`n"
+    Write-Host "Uninstall completed."   "`n"
 }
 
 function DCUInstall {
-    Write-Host "Downloading and installing Dell Command Updater. Please wait while the process is being completed."  -Seperator "`n"
+    Write-Host "Downloading and installing Dell Command Updater. Please wait while the process is being completed."   "`n"
     [System.IO.Directory]::CreateDirectory('C:\Temp')
     Invoke-WebRequest -Uri $DCULink -OutFile "C:\Temp\DCU.exe" -UserAgent ([Microsoft.PowerShell.Commands.PSUserAgent]::InternetExplorer)
     Start-Process "C:\Temp\DCU.exe" -Wait -ArgumentList "/s"
-    Write-Host "Installation completed successfully."  -Seperator "`n"
+    Write-Host "Installation completed successfully."   "`n"
 }
 
 function UpdateDrivers {
     param (
         [string]$DCUCLI = "C:\Program Files (X86)\Dell\CommandUpdate\dcu-cli.exe"
     )
-    Write-Host "Starting Dell Updates..."  -Seperator "`n"
+    Write-Host "Starting Dell Updates..."   "`n"
     $DCUCommands = @{
         Configure = @("/configure","-silent","-autoSuspendBitLocker=enable","-userConsent=disable")
         Scan = @("/scan","-silent","-outputLog=C:\dell\logs\scan.log")
@@ -38,7 +38,7 @@ function UpdateDrivers {
         }
     }
     
-        Write-Host (Get-Content "C:\dell\logs\ApplyUpdates.log" | Select-String "The program exited with return code")  -Seperator "`n"
+        Write-Host (Get-Content "C:\dell\logs\ApplyUpdates.log" | Select-String "The program exited with return code")   "`n"
 }
 
 if ($DCUCurrentInstall.Version -notlike $DCUVersion) {
@@ -48,7 +48,7 @@ if ($DCUCurrentInstall.Version -notlike $DCUVersion) {
 
 else {
 
-    Write-Host "No updates required. Current version is up to date."  -Seperator "`n"
+    Write-Host "No updates required. Current version is up to date."   "`n"
 }
 
 UpdateDrivers
