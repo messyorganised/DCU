@@ -1,7 +1,7 @@
 Start-Transcript -Path "C:\windows\temp\DCUTranscript.txt" -Append
 
-$DCULink = "https://dl.dell.com/FOLDER10791703M/1/Dell-Command-Update-Application_44TH5_WIN_5.1.0_A00.EXE?uid=5ad66d7a-e2bf-4eff-cfb8-bd59bb7d60f5&fn=Dell-Command-Update-Application_44TH5_WIN_5.1.0_A00.EXE"
-$DCUVersion = "5.1.0"
+$DCULink = "https://dl.dell.com/FOLDER11201514M/1/Dell-Command-Update-Application_4R78G_WIN_5.2.0_A00.EXE"
+$DCUVersion = "5.2.0"
 $DCUCurrentInstall = Get-WmiObject -class Win32_Product | Where-Object {$_.Name -like "*Dell Command*"}
 
 function DCUUninstall {
@@ -20,30 +20,26 @@ function DCUInstall {
 
 function UpdateDrivers {
     param (
-        [string]$DCUCLI = "C:\Program Files (X86)\Dell\CommandUpdate\dcu-cli.exe"
+        [string]$DCUCLI = "C:\Program Files (x86)\Dell\CommandUpdate\dcu-cli.exe"
     )
     Write-Host "Starting Dell Updates..."   "`n"
     $DCUCommands = @{
         Configure = @("/configure","-silent","-autoSuspendBitLocker=enable","-userConsent=disable")
-        Scan = @("/scan","-silent","-outputLog=C:\dell\logs\scan.log")
+        Scan = @("/scan","-silent")
         ApplyUpdates = @("/ApplyUpdates","-silent","-reboot=disable","-outputLog=C:\dell\logs\ApplyUpdates.log")
     }
     
     foreach ($command in $DCUCommands.GetEnumerator()) {
         Start-Process $DCUCLI -WindowStyle Hidden -Wait -ArgumentList $command.Value
-
-        if ($command.Key -eq 'Scan') {
-            $scanResults = Get-Content "C:\dell\logs\scan.log" | Select-String "Number of applicable updates for the current system configuration"
-            Write-Host $scanResults
-        }
     }
     
-        Write-Host (Get-Content "C:\dell\logs\ApplyUpdates.log" | Select-String "The program exited with return code")   "`n"
+    Write-Host (Get-Content "C:\dell\logs\ApplyUpdates.log" | Select-String "The program exited with return code")   "`n"
+    
 }
 
 if ($DCUCurrentInstall.Version -notlike $DCUVersion) {
-    DCUUninstall
-    DCUInstall
+    DCUUninstall -wait
+    DCUInstall -wait
 } 
 
 else {
@@ -51,6 +47,7 @@ else {
     Write-Host "No updates required. Current version is up to date."   "`n"
 }
 
-UpdateDrivers
+UpdateDrivers -Wait
+
 
 Stop-Transcript
