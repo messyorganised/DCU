@@ -1,7 +1,7 @@
 Start-Transcript -Path "C:\windows\temp\DCUTranscript.txt" -Append
 
-$DCULink = "https://dl.dell.com/FOLDER11563430M/1/Dell-Command-Update-Application_T45GH_WIN_5.3.0_A00.EXE"
-$DCUVersion = "5.3.0"
+$DCULink = "https://dl.dell.com/FOLDER11914075M/1/Dell-Command-Update-Application_6VFWW_WIN_5.4.0_A00.EXE"
+$DCUVersion = "5.4.0"
 $DCUCurrentInstall = Get-WmiObject -class Win32_Product | Where-Object {$_.Name -like "*Dell Command*"}
 
 function DCUUninstall {
